@@ -1,1 +1,1 @@
-# easybox-redirect
+# Warranty Registration Form
