@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step Progress Animation</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 40px;
+    }
+
+
+    .multi-step-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .step-tracker {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+
+    .step-circle {
+      position: relative;
+      width: 40px;
+      height: 40px;
+    }
+
+
+    .circle-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+
+    .circle {
+      fill: white;
+      stroke: #ccc;
+      /* default gray */
+      stroke-width: 2;
+      transition: stroke 0.3s ease;
+    }
+
+
+    .step-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+
+    .step-number {
+      color: #ccc;
+      transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+    }
+
+
+    .step-check {
+      color: #4cd864;
+      opacity: 0;
+      transform: scale(0);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+
+    .step-circle.active .circle {
+      stroke: #2094fa;
+    }
+
+
+    .step-circle.active .step-number {
+      color: #2094fa;
+    }
+
+
+    .step-circle.completed .circle {
+      stroke: #4cd864;
+    }
+
+
+    .step-circle.completed .step-number {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+
+    .step-circle.completed .step-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+
+    .form-steps {
+      flex-grow: 1;
+    }
+
+
+    .step-panel {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fefefe;
+      min-height: 120px;
+    }
+
+
+    .step-panel.active {
+      display: block;
+    }
+
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+
+    button {
+      padding: 10px 18px;
+      background-color: #2094fa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+
+    button:hover {
+      background-color: #1878d4;
+    }
+
+
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+
+    @media (max-width: 600px) {
+      .multi-step-container {
+        flex-direction: column;
+      }
+
+
+      .step-tracker {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+  <h2 style="text-align:center;">Step Progress (Color & Checkmark)</h2>
+
+
+  <div class="multi-step-container">
+    <div class="step-tracker">
+      <div class="step-circle active" data-step="1">
+        <svg class="circle-svg" viewBox="0 0 40 40">
+          <circle class="circle" cx="20" cy="20" r="18"></circle>
+        </svg>
+        <div class="step-content">
+          <span class="step-number">1</span>
+          <span class="step-check">✔</span>
+        </div>
+      </div>
+      <div class="step-circle" data-step="2">
+        <svg class="circle-svg" viewBox="0 0 40 40">
+          <circle class="circle" cx="20" cy="20" r="18"></circle>
+        </svg>
+        <div class="step-content">
+          <span class="step-number">2</span>
+          <span class="step-check">✔</span>
+        </div>
+      </div>
+      <div class="step-circle" data-step="3">
+        <svg class="circle-svg" viewBox="0 0 40 40">
+          <circle class="circle" cx="20" cy="20" r="18"></circle>
+        </svg>
+        <div class="step-content">
+          <span class="step-number">3</span>
+          <span class="step-check">✔</span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-steps">
+      <div class="step-panel active">
+        <h3>Step 1</h3>
+        <p>Enter your basic information.</p>
+      </div>
+      <div class="step-panel">
+        <h3>Step 2</h3>
+        <p>Upload your documents.</p>
+      </div>
+      <div class="step-panel">
+        <h3>Step 3</h3>
+        <p>Review & submit.</p>
+      </div>
+
+
+      <div class="buttons">
+        <button id="prevBtn" disabled>Previous</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    const steps = document.querySelectorAll(".step-circle");
+    const panels = document.querySelectorAll(".step-panel");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+
+
+    let current = 0;
+
+
+    function updateUI() {
+      steps.forEach((step, index) => {
+        step.classList.remove("active", "completed");
+        if (index < current) {
+          step.classList.add("completed");
+        } else if (index === current) {
+          step.classList.add("active");
+        }
+      });
+
+
+      panels.forEach((panel, index) => {
+        panel.classList.toggle("active", index === current);
+      });
+
+
+      prevBtn.disabled = current === 0;
+      nextBtn.textContent = current === steps.length - 1 ? "Finish" : "Next";
+    }
+
+
+    nextBtn.addEventListener("click", () => {
+      if (current < steps.length - 1) {
+        current++;
+        updateUI();
+      } else {
+        alert("Form submitted!");
+      }
+    });
+
+
+    prevBtn.addEventListener("click", () => {
+      if (current > 0) {
+        current--;
+        updateUI();
+      }
+    });
+
+
+    updateUI();
+  </script>
+</body>
+
+
+</html>
+

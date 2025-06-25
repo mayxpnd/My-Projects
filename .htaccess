@@ -1,0 +1,4 @@
+RewriteEngine On 
+# Rewrite URL /register ให้ไปที่ register.php
+RewriteRule ^register$ register.php [L]
+
