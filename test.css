@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.stepper-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  border: 2px solid #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.step.completed .circle {
+  background: #4CD864;
+  color: white;
+  border-color: #4CD864;
+  animation: flip 0.5s ease forwards;
+}
+
+.step.completed .circle::before {
+  content: "✔";
+  font-size: 20px;
+  position: absolute;
+  transform: scale(0);
+  animation: checkAppear 0.3s forwards 0.2s;
+}
+
+.step.completed .circle span {
+  display: none;
+}
+
+.label {
+  font-size: 16px;
+  color: #333;
+}
+
+@keyframes flip {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(180deg); }
+}
+
+@keyframes checkAppear {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .stepper-container {
+    padding: 0 10px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .circle {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}

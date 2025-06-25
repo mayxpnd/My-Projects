@@ -1,24 +1,692 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Redirecting to EasyBox HD</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    window.onload = function() {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+<html lang="th">
 
-      if (/android/i.test(userAgent)) {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.easyboxhd.appiot";
-      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        window.location.href = "https://apps.apple.com/th/app/easybox-hd/id6743691778?l=th";
-      } else {
-        window.location.href = "https://www.easyboxhd.com"; // fallback URL
-      }
-    };
-  </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าหลัก - ลงทะเบียนรับประกันสินค้า</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Kanit', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s ease-in-out;
+            align-items: center;
+        }
+
+        .main-content {
+            flex-grow: 1;
+        }
+
+        /* แถบที่1 สีดำ */
+        .top-bar {
+            background-color: #000000;
+            color: white;
+            font-size: 14px;
+            padding: 5px 0;
+            z-index: 999;
+            position: relative;
+            width: 100vw;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #ffc107;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 400px) {
+            .company-name {
+                text-align: center;
+            }
+
+            .open-hours,
+            .social-icons {
+                display: none;
+            }
+        }
+
+        /* แถบที่2 แสดง Logo */
+        .navbar {
+            background-color: white;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100vw;
+        }
+
+        .logo {
+            margin-top: 5px;
+            max-width: 200px;
+            margin-left: 10px;
+        }
+
+        /* แถบที่3 แสดงเมนู */
+        #wide-nav {
+            background: #e6e6e6;
+            box-shadow: #c2c2c2 0px 2px 5px;
+            color: #fff;
+            font-family: 'Kanit', sans-serif;
+            padding: 15px 0;
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid #bbbaba;
+            margin-top: -5px;
+            width: 100vw;
+        }
+
+        #wide-nav .container-3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: nowrap;
+        }
+
+        .nav>.menu-item {
+            margin: 0 25px;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav>.menu-item>a {
+            color: #646464;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 5px;
+            transition: color 0.3s ease, border-bottom 0.3s ease, transform 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav>.menu-item>a:hover {
+            color: #c7c7c7;
+            transform: scale(1.05);
+        }
+
+        .sub-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #ffffff;
+            list-style: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            min-width: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(10px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .menu-item.has-dropdown:hover>.sub-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .sub-menu .item {
+            display: block;
+            padding: 8px 15px;
+            color: #0e0e0e;
+            text-decoration: none;
+            font-weight: 100;
+        }
+
+        .sub-menu .item a {
+            text-decoration: none;
+            color: #000000;
+            display: block;
+            padding: 8px 15px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .sub-menu .item:hover {
+            border-radius: 5px;
+            background: #ffc107;
+            color: #283e51;
+        }
+
+        .menu-item>a {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item>a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 2px;
+            width: 0;
+            height: 2px;
+            background-color: #030303;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .menu-item:hover>a::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* ย่อหน้า hide menu item แถบที่3 */
+        @media (max-width: 784px) {
+            #wide-nav {
+                display: none;
+            }
+        }
+
+        /* ลงทะเบียนรับประกันสินค้า */
+        .card-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            gap: 100px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* animation ขยายหน้าจอ */
+        @media (min-width: 786px) {
+            .card-custom {
+                animation: smoothResize 0.5s ease-in-out;
+            }
+        }
+
+        @keyframes smoothResize {
+            from {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Default: สำหรับจอใหญ่กว่า 785px */
+        .card-custom {
+            border-radius: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            width: 320px;
+            height: 320px;
+            max-width: 320px;
+            max-height: 320px;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+
+
+        .text-bold {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 0;
+            transition: color 0.3s ease-in-out;
+            margin-top: 10px;
+            line-height: 1.5;
+            text-decoration: none;
+            color: black;
+        }
+
+        .text-muted {
+            font-size: 15px;
+            margin-top: 3px;
+            line-height: 1.5;
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+
+        .text-bold:hover {
+            color: #ffc107;
+        }
+
+        .text-container-4 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ปรับ Layout เมื่อลดขนาดหน้าจอ */
+        @media (max-width: 784px) {
+            .card-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .card-custom {
+                flex-direction: row;
+                width: auto;
+                height: 150px;
+                max-width: 400px;
+                max-height: 150px;
+                padding: 15px;
+                text-align: left;
+
+            }
+
+            .text-container-4 {
+                align-items: flex-start;
+                margin-left: 10px;
+
+            }
+
+            .text-bold {
+                font-size: 26px;
+                text-align: left;
+
+            }
+        }
+
+        /* animation ลดหน้าจอ */
+        @media (max-width: 784px) {
+
+            .card-wrapper,
+            .card-custom,
+            .icon,
+            .text-container-4,
+            .text-bold {
+                animation: smoothResize 0.5s ease-in-out;
+            }
+        }
+
+        @keyframes smoothResize {
+            from {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #ebebeb;
+            color: #303030;
+            text-align: center;
+            font-size: 16px;
+            width: 100%;
+            padding: 20px 0;
+            width: 100vw;
+        }
+
+        footer img {
+            max-width: 200px;
+        }
+
+        .footer p {
+            margin-top: 10px;
+            color: #303030;
+            font-weight: 200;
+            line-height: 1.7;
+        }
+
+        .footer-contact {
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: 200;
+        }
+
+        .footer-contact a {
+            color: #303030;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        /* ซ่อน Mobile Menu เริ่มต้น */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px;
+            z-index: 20;
+        }
+
+        /* แสดงเมนูเมื่อ active */
+        .mobile-menu.active {
+            right: 0;
+            z-index: 20;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            font-size: 60px;
+            font-weight: 1;
+            color: rgb(99, 99, 99);
+        }
+
+        .close-menu:hover {
+            color: rgb(170, 170, 170);
+        }
+
+        /* Hamburger Button */
+        .hamburger {
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            right: 10px;
+            background-color: transparent;
+            box-shadow: #c2c2c2 0px 2px 5px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            transform: translateY(13px);
+            width: 22px;
+            height: 2px;
+            margin: 4px auto;
+            background: #818181;
+            transition: 0.3s;
+            z-index: 3;
+        }
+
+        .hamburger::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(206, 206, 206, 0.2);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(1);
+            transition: 0.3s ease-in-out;
+            display: block;
+        }
+
+        .hamburger:hover::before,
+        .hamburger:active::before {
+            transform: scale(1.5);
+            opacity: 1;
+        }
+
+        /* แสดงปุ่มเฉพาะหน้าจอเล็ก */
+        @media (max-width: 784px) {
+            .hamburger {
+                display: block;
+            }
+        }
+
+        /* สไตล์เมนู */
+        .menu-list {
+            list-style: none;
+            padding: 10px;
+            margin: 20px;
+            width: 100%;
+        }
+
+        .menu-list li {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 18px;
+            padding: 25px 0;
+            margin-left: 35px;
+            border-bottom: none;
+            transition: transform 0.3s ease, color 0.5s ease;
+        }
+
+        .menu-list a {
+            text-decoration: none;
+            color: #4d4d4d;
+        }
+
+        .menu-list img {
+            width: 20px;
+            height: 20px;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .menu-list li:hover {
+            transform: scale(1.1);
+            opacity: 0.5;
+        }
+    </style>
 </head>
+
 <body>
-  <p>"Taking you to the EasyBox HD App..."</p>
+    <!-- แถบด้านบน -->
+    <div class="top-bar d-flex justify-content-between align-items-center px-3">
+        <div class="company-name text-start text-md-start text-center">
+            ดีพร้อมพ์โซล่าร์เซลล์
+        </div>
+        <div class="open-hours d-none d-md-block text-center flex-grow-1">
+            เปิดทำการวันจันทร์ - เสาร์ เวลา 08.00 - 16.30 น.
+        </div>
+        <div class="social-icons text-end">
+            <a href="https://www.facebook.com/profile.php?id=100064319395117&locale=th_TH" aria-label="Facebook" target="_blank" rel="noopener"><i
+                    class="fa-brands fa-facebook"></i></a>
+            <a href="https://line.me/R/ti/p/@dprompsolarcell" aria-label="Email" target="_blank" rel="noopener"><i class="fa-solid fa-envelope"></i></a>
+            <a href="tel:0642024009" aria-label="Phone" target="_blank" rel="noopener"><i class="fa-solid fa-phone"></i></a>
+            <a href="https://www.youtube.com/@dprompsolarcell5223" aria-label="Youtube" target="_blank" rel="noopener"><i
+                    class="fa-brands fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container-1 d-flex align-items-center justify-content-between">
+                <!-- โลโก้ -->
+                <a class="navbar-brand" href="#">
+                    <img src="../pages/Img/dpromp logo web.png" alt="Logo" class="logo">
+                </a>
+            </div>
+
+            <!-- Hamburger Menu -->
+            <div class="hamburger js-hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <!-- เมนูที่แสดงเมื่อกด Hamburger -->
+        <div class="mobile-menu">
+            <button class="close-menu">&times;</button>
+            <ul class="menu-list">
+                <li><img src="../pages/Img/1.png" alt=""><a href="https://www.dprompsolarcell.com/" target="_blank" rel="noopener">สินค้า</a></li>
+                <li><img src="../pages/Img/2.png" alt=""><a
+                        href="https://dprompsolarcell.com/online/pages/p0005" target="_blank" rel="noopener">คู่มือการใช้งาน</a></li>
+                <li><img src="../pages/Img/3.png" alt=""><a href="https://dprompsolarcell.com/online/pages/p0026" target="_blank" rel="noopener">แคตตาล็อก</a>
+                </li>
+                <li><img src="../pages/Img/4.png" alt=""><a
+                        href="https://dprompsolarcell.com/online/pages/p0021" target="_blank" rel="noopener">รับประกันสินค้า</a></li>
+            </ul>
+        </div>
+
+
+
+        <!-- Wide-nav -->
+        <div class="header-bottom wide-nav flex-has-center " id="wide-nav">
+            <div class="flex-row container-3">
+                <div class="flex-col flex-center">
+                    <ul
+                        class="nav header-nav header-bottom-nav nav-center nav-line-bottom nav-size-medium nav-uppercase nav-prompts-overlay">
+                        <li id="menu-item-7083"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children has-dropdown">
+                            <a href="https://" class="nav-top-link" aria-expanded="false" aria-haspopup="menu">
+                                สินค้า
+                                <i class="icon-angle-down"></i>
+                            </a>
+                            <ul class="sub-menu nav-dropdown nav-dropdown-bold">
+                                <li class="item"><a href="https://">ปั๊มบาดาลโซล่าร์เซลล์</a></li>
+                                <li class="item"><a href="https://">ปั๊มหอยโข่งโซล่าร์เซลล์</a></li>
+                                <li class="item"><a href="https://">ปั๊มน้ำพุโซล่าร์เซลล์</a></li>
+                                <li class="item"><a href="https://">ปั๊มซัมเมอร์สโซล่าร์เซลล์</a></li>
+                                <li class="item"><a href="https://">ปั๊มเพลาลอยโซล่าร์เซลล์</a></li>
+                            </ul>
+                        </li>
+                        <li id="menu-item-8838"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children has-dropdown">
+                            <a href="https://" class="nav-top-link" aria-expanded="false" aria-haspopup="menu">
+                                คู่มือการใช้งาน
+                                <i class="icon-angle-down"></i>
+                            </a>
+                            <ul class="sub-menu nav-dropdown nav-dropdown-bold">
+                                <li class="item"><a href="https://">คู่มือแก้ไขปัญหาเบื้องต้น</a>
+                                </li>
+                                <li class="item"><a href="https://">คลิปการต่อใช้งาน</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item"><a href="https://" class="nav-top-link">แคตตาล็อก</a></li>
+                        <li class="menu-item current-menu-item"><a href="https://"
+                                class="nav-top-link">รับประกันสินค้า</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- รับประกันสินค้า -->
+        <div class="container-4">
+            <div class="card-wrapper">
+                <a href="register" alt="link">
+                    <div class="card card-custom border-0">
+                        <img src="../pages/Img/task.png" class="icon" alt="icon">
+                        <div class="text-container-4">
+                            <h5 class="text-bold">ลงทะเบียนรับประกันสินค้า</h5>
+                            <p class="text-muted">ลงทะเบียนรับประกันสินค้า เพื่อรับบริการดูแลสินค้าจากเรา</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="check_warranty.php" alt="link">
+                <div class="card card-custom border-0">
+                    <img src="../pages/Img/keyword.png" class="icon" alt="icon">
+                    <div class="text-container-4">
+                        <h5 class="text-bold">ตรวจสอบสถานะการรับประกันสินค้า</h5>
+                        <p class="text-muted">ตรวจสอบสถานะและระยะเวลาการรับประกันสินค้า</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-5 text-center">
+            <img src="../pages/Img/dpromp logo web.png" alt="Logo" class="footer-logo">
+            <p>ดีพร้อมพ์โซล่าร์เซลล์</p>
+            <p>424/4 หมู่ 4 ตำบลชุมเห็ด อำเภอเมือง จังหวัดบุรีรัมย์ 31000</p>
+            <p>เปิดทำการวันจันทร์ - เสาร์ เวลา 08.00 - 16.30 น.</p>
+            <div class="footer-contact">
+                <i class="fa-solid fa-phone"></i> 064 - 202 - 4009 &nbsp;&nbsp;
+                <i class="fa-solid fa-envelope"></i> <a href="https://www.dprompsolarcell.com">dprompsolarcell.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hamburger = document.querySelector(".js-hamburger");
+            const mobileMenu = document.querySelector(".mobile-menu");
+            const closeMenu = document.querySelector(".close-menu"); // ปุ่มกากบาท
+
+            hamburger.addEventListener("click", function () {
+                mobileMenu.classList.toggle("active");
+            });
+
+            closeMenu.addEventListener("click", function () {
+                mobileMenu.classList.remove("active"); // ปิดเมนูเมื่อคลิก ❌
+            });
+        });
+    </script>
+
+    
+   
+
+
 </body>
+
 </html>
+
+

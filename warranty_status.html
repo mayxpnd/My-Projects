@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ตรวจสอบการรับประกันสินค้า</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Prompt', sans-serif;
+      background: linear-gradient(to bottom, #f4e9e0, #d8cfc7);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-image: url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7');
+      /* เปลี่ยนได้ */
+      background-size: cover;
+      background-position: right bottom;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 40px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1em;
+      margin-bottom: 30px;
+      color: #f0f0f0;
+    }
+
+    .input-group {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto 20px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 15px;
+      font-size: 1em;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 15px 25px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .note {
+      font-size: 0.9em;
+      color: #eee;
+    }
+
+    .note a {
+      color: #fcd34d;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>ของแท้และของปลอมและสอบถามวันเปิดใช้งาน</h1>
+    <p>ตรวจสอบเวลาการเปิดใช้งานผลิตภัณฑ์</p>
+    <div class="input-group">
+      <input type="text" placeholder="กรุณากรอกหมายเลขซีเรียลของผลิตภัณฑ์">
+      <button>แบบสอบถาม</button>
+    </div>
+    <div class="note">
+      ต้องการตรวจสอบโทรศัพท์และนาฬิกา กรุณากรอกหมายเลข IMEI | ต้องการตรวจสอบแท็บเล็ต สายรัดข้อมือ<br>
+      และหูฟัง กรุณากรอกหมายเลข SN <a href="#">วิธีการค้นหาหมายเลข IMEI</a>
+    </div>
+  </div>
+</body>
+
+</html>
